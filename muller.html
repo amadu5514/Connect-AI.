@@ -1,0 +1,609 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobConnect - Find Your Opportunity</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+  color: #17233c;
+}
+
+header {
+  background: #102b52;
+  color: white;
+  padding: 17px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #45d6b0;
+}
+
+nav {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+nav a:hover {
+  color: #45d6b0;
+}
+
+.hero {
+  background: linear-gradient(120deg,#102b52,#1768a5);
+  color: white;
+  text-align: center;
+  padding: 65px 18px;
+}
+
+.hero h1 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.search-box {
+  background: white;
+  max-width: 650px;
+  margin: auto;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+.search-box input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 12px;
+  font-size: 15px;
+}
+
+button {
+  background: #10a77e;
+  border: none;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  opacity: .88;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 18px;
+}
+
+.section-title {
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+
+.categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(130px,1fr));
+  gap: 14px;
+}
+
+.category {
+  background: white;
+  border-radius: 10px;
+  padding: 22px 10px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 10px #00000008;
+}
+
+.category:hover {
+  border: 1px solid #10a77e;
+}
+
+.category div {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.jobs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap: 18px;
+}
+
+.job-card {
+  background: white;
+  padding: 22px;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px #0000000a;
+}
+
+.job-card h3 {
+  margin-bottom: 12px;
+  color: #102b52;
+}
+
+.job-card p {
+  margin: 8px 0;
+  color: #667085;
+  font-size: 14px;
+}
+
+.tag {
+  display: inline-block;
+  background: #e3f7f0;
+  color: #087b5c;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  margin: 10px 0;
+}
+
+.job-card button {
+  width: 100%;
+  margin-top: 12px;
+}
+
+.post-section {
+  background: #eaf3fb;
+  text-align: center;
+  padding: 45px 20px;
+}
+
+.post-section h2 {
+  margin-bottom: 12px;
+}
+
+.post-section p {
+  margin-bottom: 20px;
+}
+
+footer {
+  background: #102b52;
+  color: white;
+  text-align: center;
+  padding: 25px;
+  line-height: 1.8;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #0009;
+  z-index: 10;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: white;
+  max-width: 450px;
+  margin: 30px auto;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+.modal-content h2 {
+  margin-bottom: 18px;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 14px;
+  border: 1px solid #ccd4df;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+.modal-content button {
+  width: 100%;
+  margin-top: 8px;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+  font-size: 23px;
+}
+
+.empty {
+  color: #667085;
+  padding: 15px 0;
+}
+
+@media(max-width:600px) {
+  header {
+    flex-direction: column;
+  }
+
+  nav {
+    justify-content: center;
+  }
+
+  .hero h1 {
+    font-size: 28px;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box button {
+    width: 100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Job<span>Connect</span></div>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#jobs">Find Jobs</a>
+    <a href="#categories">Categories</a>
+    <a href="#employers">Employers</a>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <h1>Find Your Dream Job Today</h1>
+  <p>
+    Discover opportunities. Connect with employers.
+    Build your future with JobConnect.
+  </p>
+
+  <div class="search-box">
+    <input id="searchInput"
+      type="text"
+      placeholder="Search job title or company">
+
+    <button onclick="searchJobs()">Search Jobs</button>
+  </div>
+</section>
+
+<section class="container" id="categories">
+  <h2 class="section-title">Explore Job Categories</h2>
+
+  <div class="categories">
+    <div class="category" onclick="filterCategory('Technology')">
+      <div>💻</div>Technology
+    </div>
+
+    <div class="category" onclick="filterCategory('Education')">
+      <div>📚</div>Education
+    </div>
+
+    <div class="category" onclick="filterCategory('Healthcare')">
+      <div>🏥</div>Healthcare
+    </div>
+
+    <div class="category" onclick="filterCategory('Business')">
+      <div>💼</div>Business
+    </div>
+
+    <div class="category" onclick="filterCategory('Engineering')">
+      <div>⚙️</div>Engineering
+    </div>
+
+    <div class="category" onclick="filterCategory('Finance')">
+      <div>💰</div>Finance
+    </div>
+  </div>
+</section>
+
+<section class="container" id="jobs">
+  <h2 class="section-title">Latest Job Opportunities</h2>
+
+  <div class="jobs" id="jobList"></div>
+</section>
+
+<section class="post-section" id="employers">
+  <h2>Are You an Employer?</h2>
+  <p>Find talented people for your organization.</p>
+  <button onclick="openModal('postModal')">
+    Post a Job
+  </button>
+</section>
+
+<footer>
+  <h2>JobConnect</h2>
+  <p>Connecting people with opportunities.</p>
+  <p>© 2026 JobConnect. All rights reserved.</p>
+  <p>Sierra Leone | Connecting the World</p>
+</footer>
+
+<!-- JOB POSTING FORM -->
+
+<div class="modal" id="postModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('postModal')">&times;</span>
+
+    <h2>Post a Job</h2>
+
+    <form id="postForm">
+      <input id="company" placeholder="Company name" required>
+
+      <input id="title" placeholder="Job title" required>
+
+      <input id="location" placeholder="Job location" required>
+
+      <select id="category" required>
+        <option value="">Select category</option>
+        <option>Technology</option>
+        <option>Education</option>
+        <option>Healthcare</option>
+        <option>Business</option>
+        <option>Engineering</option>
+        <option>Finance</option>
+        <option>Other</option>
+      </select>
+
+      <select id="type" required>
+        <option value="">Employment type</option>
+        <option>Full-time</option>
+        <option>Part-time</option>
+        <option>Internship</option>
+        <option>Remote</option>
+      </select>
+
+      <textarea id="description"
+        placeholder="Describe the job and requirements"
+        rows="4" required></textarea>
+
+      <input id="contact"
+        type="email"
+        placeholder="Employer email"
+        required>
+
+      <button type="submit">Publish Job</button>
+    </form>
+  </div>
+</div>
+
+<!-- APPLICATION FORM -->
+
+<div class="modal" id="applyModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('applyModal')">&times;</span>
+
+    <h2>Apply for Job</h2>
+
+    <form id="applyForm">
+      <input id="applicantName"
+        placeholder="Your full name" required>
+
+      <input id="applicantEmail"
+        type="email"
+        placeholder="Your email address" required>
+
+      <textarea id="applicantMessage"
+        placeholder="Tell the employer about yourself"
+        rows="4" required></textarea>
+
+      <button type="submit">Submit Application</button>
+    </form>
+  </div>
+</div>
+
+<script>
+
+let jobs = [
+  {
+    company: "Example Technology Company",
+    title: "Junior Web Developer",
+    location: "Freetown, Sierra Leone",
+    category: "Technology",
+    type: "Full-time",
+    description: "An example demonstration vacancy for a web development role.",
+    contact: "example@example.com"
+  },
+
+  {
+    company: "Example Learning Centre",
+    title: "School Teacher",
+    location: "Bo, Sierra Leone",
+    category: "Education",
+    type: "Full-time",
+    description: "An example demonstration vacancy for a teaching role.",
+    contact: "example@example.com"
+  },
+
+  {
+    company: "Example Business Group",
+    title: "Account Assistant",
+    location: "Kenema, Sierra Leone",
+    category: "Finance",
+    type: "Part-time",
+    description: "An example demonstration vacancy for an accounts assistant.",
+    contact: "example@example.com"
+  }
+];
+
+let selectedJob = null;
+
+function displayJobs(list = jobs) {
+  const jobList = document.getElementById("jobList");
+
+  jobList.innerHTML = "";
+
+  if (list.length === 0) {
+    jobList.innerHTML =
+      '<p class="empty">No jobs found. Try another search.</p>';
+    return;
+  }
+
+  list.forEach((job) => {
+    const card = document.createElement("div");
+    card.className = "job-card";
+
+    const heading = document.createElement("h3");
+    heading.textContent = job.title;
+
+    const company = document.createElement("p");
+    company.textContent = "🏢 " + job.company;
+
+    const location = document.createElement("p");
+    location.textContent = "📍 " + job.location;
+
+    const type = document.createElement("p");
+    type.textContent = "Employment: " + job.type;
+
+    const description = document.createElement("p");
+    description.textContent = job.description;
+
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = job.category;
+
+    const apply = document.createElement("button");
+    apply.textContent = "Apply Now";
+    apply.addEventListener("click", () => openApply(job));
+
+    card.append(
+      heading, company, location, type,
+      tag, description, apply
+    );
+
+    jobList.appendChild(card);
+  });
+}
+
+function searchJobs() {
+  const search = document
+    .getElementById("searchInput")
+    .value.toLowerCase().trim();
+
+  const results = jobs.filter(job =>
+    (job.title + " " + job.company + " " +
+    job.location + " " + job.category)
+    .toLowerCase().includes(search)
+  );
+
+  displayJobs(results);
+  document.getElementById("jobs").scrollIntoView();
+}
+
+function filterCategory(category) {
+  const results = jobs.filter(job =>
+    job.category === category
+  );
+
+  displayJobs(results);
+  document.getElementById("jobs").scrollIntoView();
+}
+
+function openModal(id) {
+  document.getElementById(id).style.display = "block";
+}
+
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+function openApply(job) {
+  selectedJob = job;
+  openModal("applyModal");
+}
+
+document.getElementById("postForm")
+.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const job = {
+    company: document.getElementById("company").value,
+    title: document.getElementById("title").value,
+    location: document.getElementById("location").value,
+    category: document.getElementById("category").value,
+    type: document.getElementById("type").value,
+    description: document.getElementById("description").value,
+    contact: document.getElementById("contact").value
+  };
+
+  jobs.unshift(job);
+
+  displayJobs();
+  this.reset();
+  closeModal("postModal");
+
+  alert("Job added to this demo!");
+  document.getElementById("jobs").scrollIntoView();
+});
+
+document.getElementById("applyForm")
+.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  if (!selectedJob) return;
+
+  const applicant = {
+    name: document.getElementById("applicantName").value,
+    email: document.getElementById("applicantEmail").value,
+    message: document.getElementById("applicantMessage").value
+  };
+
+  alert(
+    "Demo application prepared for " +
+    selectedJob.title +
+    ". Online delivery will be added in a later stage."
+  );
+
+  console.log("Demo application:", applicant);
+  this.reset();
+  closeModal("applyModal");
+  selectedJob = null;
+});
+
+document.getElementById("searchInput")
+.addEventListener("keydown", function(e) {
+  if (e.key === "Enter") searchJobs();
+});
+
+displayJobs();
+
+</script>
+
+</body>
+</html>
+
